@@ -6,20 +6,19 @@ updated: 2026-07-03
 # Cairn Build — Always-Read
 
 ## Current Status
-v1 complete and pushed to GitHub (https://github.com/arushnagpal/cairn.git).
-v2 scoped: POSIX shell CLI (validate.sh + cairn.sh init + cairn.sh status).
+v2 complete and pushed to GitHub (https://github.com/arushnagpal/cairn.git).
+validate.sh + cairn.sh (init + status) + .cairn.toml all shipped. 19 tests passing.
 
 ## Active Task
-T9 — v2 CLI shell rewrite. See .meta/tasks/T9-v2-cli-shell.md.
+None. v2 is done. Next work: marketing / GitHub growth, or v3 features from ROADMAP.md.
 
 ## Key Invariants
 - cairn/ is the product (copyable). .meta/ is build scaffolding only.
-- v2 language = POSIX sh (not bash). Use `find -newer` not `stat` for mtime.
-- validate.py stays as optional alternative; validate.sh becomes canonical.
+- validate.sh is canonical; validate.py is a thin wrapper delegating to validate.sh.
 - Every cairn/ file must stay ≤ 200 lines.
-- Run shellcheck -s sh on all shell scripts.
+- All shell scripts: #!/bin/sh, shellcheck -s sh clean, awk not wc -l, find -newer not stat.
 
 ## Do Not Re-Read
 BUILD-PROMPT.md, docs/superpowers/ — v1 design, done.
-.meta/handoffs/T1–T7 — v1 build history, settled.
-Read T8-handover.md for the full v2 context and open questions.
+.meta/handoffs/T1–T8 — build history, settled.
+Read T9-handover.md for the full v2 implementation record.

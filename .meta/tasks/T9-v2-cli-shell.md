@@ -2,7 +2,7 @@
 id: T9
 title: v2 CLI — cairn.sh (init + status) + validate.sh
 depends_on: [T1, T2, T3, T4, T5, T6, T7, T8]
-status: pending
+status: complete
 ---
 
 ## Context
