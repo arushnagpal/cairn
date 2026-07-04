@@ -124,5 +124,83 @@ class TestConfigOverrides(unittest.TestCase):
             self.assertIn("SIZE VIOLATION", out)
 
 
+# ── cairn.sh integration tests ────────────────────────────────────────────────
+
+CAIRN_SH = Path(__file__).parent.parent / "cairn" / "tools" / "cairn.sh"
+CAIRN_SRC = Path(__file__).parent.parent / "cairn"
+
+
+def run_cairn(args, cwd=None):
+    result = subprocess.run(
+        ["sh", str(CAIRN_SH)] + args,
+        capture_output=True,
+        text=True,
+        cwd=cwd,
+    )
+    return result.returncode, result.stdout + result.stderr
+
+
+class TestCairnInit(unittest.TestCase):
+    def test_init_creates_cairn_structure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            code, out = run_cairn(["init", tmp])
+            self.assertEqual(code, 0, f"cairn init failed: {out}")
+            cairn = Path(tmp) / "cairn"
+            self.assertTrue(cairn.is_dir())
+            self.assertTrue((cairn / "START-HERE.md").is_file())
+            self.assertTrue((cairn / "memory" / "INDEX.md").is_file())
+            self.assertTrue((cairn / "handoffs").is_dir())
+            self.assertTrue((cairn / "tasks").is_dir())
+            self.assertTrue((cairn / "protocol").is_dir())
+            self.assertTrue((cairn / "templates").is_dir())
+            self.assertTrue((cairn / "tools").is_dir())
+            self.assertIn("Cairn initialized", out)
+
+    def test_init_start_here_has_validator_line(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run_cairn(["init", tmp])
+            start_here = (Path(tmp) / "cairn" / "START-HERE.md").read_text()
+            self.assertIn("validate.sh", start_here)
+
+    def test_init_fails_if_cairn_already_exists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run_cairn(["init", tmp])
+            code, out = run_cairn(["init", tmp])
+            self.assertNotEqual(code, 0)
+            self.assertIn("already exists", out)
+
+
+class TestCairnStatus(unittest.TestCase):
+    def test_status_shows_current_task_and_memory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run_cairn(["init", tmp])
+            cairn_dir = str(Path(tmp) / "cairn")
+            # Run status from the parent dir (cairn/ is at cairn/cairn/ relative)
+            # status auto-detects cairn/START-HERE.md from cwd
+            code, out = run_cairn(["status"], cwd=tmp)
+            self.assertEqual(code, 0, f"cairn status failed: {out}")
+            self.assertIn("Current Status", out)
+            self.assertIn("Memory Budget", out)
+            self.assertIn("Validator", out)
+
+    def test_status_shows_staleness_warning(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run_cairn(["init", tmp])
+            cairn = Path(tmp) / "cairn"
+            # Create a memory file and a newer handoff to trigger staleness
+            mem = cairn / "memory" / "notes.md"
+            mem.write_text("# Notes\nsome notes\n")
+            hand = cairn / "handoffs" / "h1.md"
+            hand.write_text(
+                "## What I Did\nx\n## Key Decisions\ny\n"
+                "## What's Next\nz\n## Do Not Re-Read\nnone\n"
+            )
+            old = hand.stat().st_mtime - 100
+            os.utime(mem, (old, old))
+            code, out = run_cairn(["status"], cwd=tmp)
+            self.assertEqual(code, 0)
+            self.assertIn("WARNING", out)
+
+
 if __name__ == "__main__":
     unittest.main()
