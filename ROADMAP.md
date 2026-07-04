@@ -20,7 +20,7 @@ without an engine. An engine adds complexity before the convention is proven at 
 **What:**
 - `cairn init` — scaffold a new `cairn/` directory in any repo
 - `cairn status` — show current task, memory budget usage, staleness flags
-- `validate.sh` — POSIX sh validator, replaces `validate.py` as canonical tool
+- `validate.sh` — POSIX sh validator, replaces `validate.sh` as canonical tool
 
 **Shipped:** v2 (`cairn/tools/cairn.sh`, `cairn/tools/validate.sh`).
 
@@ -28,7 +28,7 @@ without an engine. An engine adds complexity before the convention is proven at 
 
 ## Git Pre-Commit Hook
 
-**What:** Run `validate.py` automatically on every commit, blocking commits that would
+**What:** Run `validate.sh` automatically on every commit, blocking commits that would
 leave memory stale or files oversized.
 
 **Why phased:** Requires hook installation per repo, breaking the frictionless copy-in
@@ -40,7 +40,7 @@ quickstart. Phase 2 after the protocol is adopted.
 
 ## GitHub Actions Integration
 
-**What:** Workflow that runs `validate.py` on every PR and posts a summary comment;
+**What:** Workflow that runs `validate.sh` on every PR and posts a summary comment;
 optional auto-labeling for stale-memory PRs.
 
 **Why phased:** Adds GitHub coupling to a protocol designed to be platform-agnostic.

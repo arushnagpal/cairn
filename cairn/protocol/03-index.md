@@ -10,7 +10,7 @@ It is not documentation — it is a live dispatch file.
 3. **Memory Pointer** — link to `cairn/memory/INDEX.md`.
 4. **Handover Pointer** — link to the most recent handover in `cairn/handoffs/`.
 5. **Protocol Pointer** — link to `cairn/protocol/00-overview.md`.
-6. **Validator** — how to run `python cairn/tools/validate.py`.
+6. **Validator** — how to run `sh cairn/tools/validate.sh`.
 
 ## What START-HERE.md Must NOT Contain
 

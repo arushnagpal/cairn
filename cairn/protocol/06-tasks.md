@@ -24,7 +24,7 @@ What this task produces. Specific file paths and what each contains.
 
 ## Acceptance Criteria
 - [ ] Verifiable condition — a command to run or a behavior to observe
-- [ ] python cairn/tools/validate.py passes (exit 0)
+- [ ] sh cairn/tools/validate.sh passes (exit 0)
 
 ## Notes (optional)
 Risks, gotchas, known edge cases.

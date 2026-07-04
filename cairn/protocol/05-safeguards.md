@@ -1,7 +1,7 @@
 # Cairn — Safeguards
 
-All safeguards are enforced by `cairn/tools/validate.py`. This document explains the
-rules; the validator enforces them. Run `python cairn/tools/validate.py` before
+All safeguards are enforced by `cairn/tools/validate.sh`. This document explains the
+rules; the validator enforces them. Run `sh cairn/tools/validate.sh` before
 stopping work.
 
 ## File Size Caps
@@ -12,7 +12,7 @@ stopping work.
 Every `.md` file in `cairn/` is checked. When a file exceeds the cap:
 1. Do not append more content.
 2. Distill: condense earlier content, remove resolved entries, preserve key facts.
-3. Run validate.py to confirm the file is within bounds.
+3. Run validate.sh to confirm the file is within bounds.
 
 The cap exists because unbounded files break the always-read promise.
 
@@ -26,7 +26,7 @@ remove entries for decisions that are no longer live.
 
 ## Staleness Rule
 
-`validate.py` compares the `mtime` of every file in `cairn/memory/` against the
+`validate.sh` compares the `mtime` of every file in `cairn/memory/` against the
 `mtime` of the newest file in `cairn/handoffs/`. A memory file older than the newest
 handover is flagged as stale.
 
@@ -41,9 +41,9 @@ Agents must never hard-delete product files. Instead:
 - Old content remains in git history.
 
 **Config:** `git_behavior` in `.cairn.toml`:
-- `off` (default) — validate.py does not check git behavior.
-- `on` — validate.py warns on deletion without supersession.
-- `strict` — validate.py fails (non-zero exit) on deletion without supersession.
+- `off` (default) — validate.sh does not check git behavior.
+- `on` — validate.sh warns on deletion without supersession.
+- `strict` — validate.sh fails (non-zero exit) on deletion without supersession.
 
 ## Configuration File
 

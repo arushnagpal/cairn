@@ -104,6 +104,24 @@ cmd_status() {
         printf 'ERROR: Cannot find cairn root. Run from the repo root or cairn/ directory.\n' >&2
         exit 4
     fi
+    # Read config overrides
+    max_memory_lines=1000
+    config_file="${cairn_root}/.cairn.toml"
+    if [ -f "$config_file" ]; then
+        while IFS= read -r line; do
+            stripped=$(printf '%s' "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            case "$stripped" in ''|\#*) continue ;; esac
+            key=$(printf '%s' "$stripped" | cut -d= -f1 | sed 's/[[:space:]]*$//')
+            val=$(printf '%s' "$stripped" | cut -d= -f2- | sed 's/^[[:space:]]*//' | sed 's/"//g' | sed "s/'//g")
+            case "$key" in
+                max_memory_lines)
+                    case "$val" in
+                        ''|*[!0-9]*) ;;
+                        *) max_memory_lines="$val" ;;
+                    esac ;;
+            esac
+        done < "$config_file"
+    fi
     start_here="${cairn_root}/START-HERE.md"
     mem_dir="${cairn_root}/memory"
     hdoffs="${cairn_root}/handoffs"
@@ -122,7 +140,7 @@ cmd_status() {
         done < "$tmpf"
         rm -f "$tmpf"
     fi
-    printf 'Memory Budget:   %d/1000 lines used\n' "$total"
+    printf 'Memory Budget:   %d/%d lines used\n' "$total" "$max_memory_lines"
     last_handoff="None yet"
     if [ -d "$hdoffs" ]; then
         tmpf=$(mktemp)

@@ -16,7 +16,7 @@ See `protocol/00-overview.md` for the mental model behind the split.
 - Hard-won invariants that are easy to forget
 
 **Cap:** Set by `max_file_lines` in `.cairn.toml` (default: 200 lines).
-`validate.py` fails if breached.
+`validate.sh` fails if breached.
 
 **Write rule:** Update `INDEX.md` after every handover. Distill — do not blindly
 append. If adding a new invariant, remove one that is no longer live.
@@ -28,7 +28,7 @@ append. If adding a new invariant, remove one that is no longer live.
 **Purpose:** Long-form rationale. Why decisions were made, dead-ends tried, context
 that won't fit in the always-read file.
 
-**Budget:** `validate.py` checks the *total* line count of all `cairn/memory/` files
+**Budget:** `validate.sh` checks the *total* line count of all `cairn/memory/` files
 against `max_memory_lines` (default: 1000 lines). When near the budget: distill.
 
 ## Append-First Rule
@@ -52,7 +52,7 @@ Deleted history is a liability; superseded history is an asset.
 
 ## Staleness Rule
 
-After every handover, update `cairn/memory/INDEX.md`. If you don't, `validate.py`
+After every handover, update `cairn/memory/INDEX.md`. If you don't, `validate.sh`
 will flag it as stale — it compares the `mtime` of each memory file against the
 `mtime` of the newest file in `cairn/handoffs/`.
 

@@ -11,7 +11,7 @@ next agent's job easier or the protocol clearer?" If the answer is no, don't do 
 In practice:
 - Write handovers for a tired agent who needs to continue in 10 minutes.
 - Keep START-HERE.md under 50 lines so a cold agent isn't overwhelmed.
-- Make validate.py error messages say exactly what to do, not just what went wrong.
+- Make validate.sh error messages say exactly what to do, not just what went wrong.
 
 Prohibits:
 - Adding features because they're interesting, not because they serve the user.
@@ -24,7 +24,7 @@ Default to the minimal option. Justify complexity — don't default to it.
 
 In practice:
 - Choosing plain markdown over a structured format unless structure buys something real.
-- Keeping validate.py at stdlib rather than adding a dependency for convenience.
+- Keeping validate.sh in POSIX sh rather than adding a dependency for convenience.
 - Splitting a doc that grew too large instead of continuing to append.
 
 Prohibits:
@@ -55,9 +55,9 @@ layer first. Spend tokens on what is uncertain, not on what is already known.
 In practice:
 - Reading "What's Next" in the handover before anything else.
 - Trusting `cairn/memory/INDEX.md` for current state without re-reading every handover.
-- Running validate.py before stopping, not after discovering a problem.
+- Running validate.sh before stopping, not after discovering a problem.
 
 Prohibits:
 - Re-reading the entire memory directory to answer a question INDEX already answers.
-- Running validate.py for the first time only at the end of a long task.
+- Running validate.sh for the first time only at the end of a long task.
 - Asking the human for information that is already in the handover.
