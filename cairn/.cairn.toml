@@ -1,0 +1,14 @@
+# Cairn configuration — all values below are the defaults.
+# Override any line by removing the leading # and changing the value.
+
+# Maximum lines per .md file in cairn/ (default: 200)
+# max_file_lines = 200
+
+# Maximum total lines across all cairn/memory/*.md files (default: 1000)
+# max_memory_lines = 1000
+
+# Git enforcement mode (default: off)
+#   off    — no git checks
+#   on     — warn if product files were hard-deleted instead of superseded
+#   strict — fail (exit 1) on hard-deleted product files
+# git_behavior = off

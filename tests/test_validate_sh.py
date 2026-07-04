@@ -182,6 +182,8 @@ class TestCairnStatus(unittest.TestCase):
             self.assertIn("Current Status", out)
             self.assertIn("Memory Budget", out)
             self.assertIn("Validator", out)
+            self.assertIn("initialized", out)   # START-HERE.md status line contains "initialized"
+            self.assertIn("None", out)          # active task is "None."
 
     def test_status_shows_staleness_warning(self):
         with tempfile.TemporaryDirectory() as tmp:

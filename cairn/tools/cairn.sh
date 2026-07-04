@@ -108,8 +108,8 @@ cmd_status() {
     mem_dir="${cairn_root}/memory"
     hdoffs="${cairn_root}/handoffs"
     printf '=== Cairn Status ===\n\n'
-    cur_status=$(grep -A1 "^## Current Status" "$start_here" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//')
-    active_task=$(grep -A1 "^## Active Task" "$start_here" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//')
+    cur_status=$(grep -A2 "^## Current Status" "$start_here" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//')
+    active_task=$(grep -A2 "^## Active Task" "$start_here" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//')
     printf 'Current Status:  %s\n' "$cur_status"
     printf 'Active Task:     %s\n' "$active_task"
     total=0
