@@ -14,7 +14,6 @@ Usage:
 Auto-detects cairn root by looking for START-HERE.md in CWD or one level up.
 """
 
-import os
 import sys
 from pathlib import Path
 
