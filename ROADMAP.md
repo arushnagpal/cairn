@@ -20,7 +20,7 @@ without an engine. An engine adds complexity before the convention is proven at 
 **What:**
 - `cairn init` — scaffold a new `cairn/` directory in any repo
 - `cairn status` — show current task, memory budget usage, staleness flags
-- `validate.sh` — POSIX sh validator, replaces `validate.sh` as canonical tool
+- `validate.sh` — POSIX sh validator, replaces `validate.py` as canonical tool
 
 **Shipped:** v2 (`cairn/tools/cairn.sh`, `cairn/tools/validate.sh`).
 

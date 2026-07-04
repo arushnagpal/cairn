@@ -30,7 +30,7 @@ dashboard. This task adds a login page and session management to restrict access
 - [ ] `GET /logout` clears the session and redirects to `/login`
 - [ ] `GET /dashboard` without a session redirects to `/login`
 - [ ] All tests pass: `pytest tests/test_auth.py -v`
-- [ ] `python cairn/tools/validate.py` passes (exit 0)
+- [ ] `sh cairn/tools/validate.sh` passes (exit 0)
 
 ## Notes
 

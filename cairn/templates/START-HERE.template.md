@@ -27,6 +27,6 @@ Task T<N> complete. Now starting T<N+1>: <short description>.
 ## Validator
 
 ```bash
-python tools/validate.py
+sh cairn/tools/validate.sh
 ```
 Run this before stopping work.

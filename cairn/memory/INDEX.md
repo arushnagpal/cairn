@@ -20,6 +20,6 @@ None.
 ## Key Invariants
 
 - Every `.md` file in `cairn/` must stay ≤ 200 lines.
-- Run `python cairn/tools/validate.py` before stopping work.
+- Run `sh cairn/tools/validate.sh` before stopping work.
 - Write a handover to `cairn/handoffs/` before ending any session.
 - Never delete memory entries — supersede them with strikethrough + explanation.
