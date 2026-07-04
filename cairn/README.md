@@ -63,17 +63,31 @@ Agent A writes the handover, commits it to `cairn/handoffs/`, and updates `cairn
 
 ## Quickstart
 
+**First use — starting a new task:**
+
 ```bash
 # 1. Copy the protocol into your repo
 cp -r cairn/ your-repo/cairn/
 
-# 2. Point your agent at the entry point
-# Tell your agent: "Read cairn/START-HERE.md and follow the protocol."
+# 2. Create your first task file
+cp your-repo/cairn/templates/task.template.md your-repo/cairn/tasks/T1-your-task.md
+# Edit T1-your-task.md: fill in title, context, inputs, outputs, acceptance criteria
 
-# 3. Verify
+# 3. Update the entry point to reference your task
+# Edit your-repo/cairn/START-HERE.md:
+#   - Active Task: tasks/T1-your-task.md
+#   - Current Status: "Starting T1: <short description>"
+
+# 4. Point your agent at the entry point
+# Tell your agent: "Read cairn/START-HERE.md and follow the Cairn protocol."
+
+# 5. Verify
 python your-repo/cairn/tools/validate.py
 # Expected: OK: cairn/ is healthy.
 ```
+
+**Resuming work** (subsequent sessions): START-HERE.md already points to the active task
+and last handover. Just tell your agent: "Read cairn/START-HERE.md and continue."
 
 ## The Handover Lifecycle
 
