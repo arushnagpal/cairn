@@ -15,16 +15,14 @@ without an engine. An engine adds complexity before the convention is proven at 
 
 ---
 
-## Richer CLI (`cairn init`, `cairn status`)
+## Richer CLI (`cairn init`, `cairn status`) ✓ shipped in v2
 
 **What:**
-- `cairn init` — scaffold a new `cairn/` directory in any repo interactively
+- `cairn init` — scaffold a new `cairn/` directory in any repo
 - `cairn status` — show current task, memory budget usage, staleness flags
+- `validate.sh` — POSIX sh validator, replaces `validate.py` as canonical tool
 
-**Why phased:** `validate.py` covers the critical enforcement path. A fuller CLI is
-ergonomics, not enforcement — phase 2 after the protocol sees adoption.
-
-**Not in v1.**
+**Shipped:** v2 (`cairn/tools/cairn.sh`, `cairn/tools/validate.sh`).
 
 ---
 

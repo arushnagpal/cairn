@@ -25,7 +25,7 @@ None yet. Handovers appear in `cairn/handoffs/` after the first task completes.
 ## Validator
 
 ```bash
-python cairn/tools/validate.py
+sh cairn/tools/validate.sh
 ```
 
 Run this before stopping work. Expected: `OK: cairn/ is healthy.`

@@ -31,11 +31,11 @@ AI agents lose context mid-task: sessions end, context windows fill, and the nex
 └─────────────────────────────────────────────────────────┘
 ```
 
-Agent A writes the handover, commits it to `cairn/handoffs/`, and updates `cairn/memory/INDEX.md`. Agent B reads `START-HERE.md`, reads the always-read INDEX, reads the handover, and acts — all within a fixed token budget. `validate.py` fails loudly if any file exceeds its cap or goes stale.
+Agent A writes the handover, commits it to `cairn/handoffs/`, and updates `cairn/memory/INDEX.md`. Agent B reads `START-HERE.md`, reads the always-read INDEX, reads the handover, and acts — all within a fixed token budget. `validate.sh` fails loudly if any file exceeds its cap or goes stale.
 
 ## Why Choose Cairn
 
-**Enforcement is the wedge.** Every lightweight competitor is advisory — they tell agents what to do, but none actually block a bloated or stale memory file. Cairn's `validate.py` fails your check when memory rots:
+**Enforcement is the wedge.** Every lightweight competitor is advisory — they tell agents what to do, but none actually block a bloated or stale memory file. Cairn's `validate.sh` fails your check when memory rots:
 
 - File over 200 lines? Exit 1: "SIZE VIOLATION: Distill this file before adding more."
 - Memory file older than the newest handover? Exit 3: "STALENESS: Review and supersede."
@@ -43,16 +43,18 @@ Agent A writes the handover, commits it to `cairn/handoffs/`, and updates `cairn
 
 **The named read-budget.** Cairn is the only protocol that names and enforces the always-read vs. on-demand split. The always-read layer is a *promise* — a hard-bounded file the next agent reads in full, every time. The on-demand layer is append-only history nobody re-reads wholesale.
 
-**Zero dependency.** Copy the folder in. Run `python cairn/tools/validate.py`. That is it — no server, no daemon, no pip install.
+**Zero dependency.** Copy the folder in. Run `sh cairn/tools/validate.sh`. That is it — no server, no daemon, no runtime install.
 
-**Dogfooded.** This repository was built by the very protocol it defines. The `.meta/` directory holds the task files, handovers, and memory that agents used to construct `cairn/`. `python cairn/tools/validate.py cairn/` exits 0.
+**Cross-platform.** `validate.sh` runs on macOS, Linux, and any CI runner that has `/bin/sh` — that is every major platform. No Python, no Node, no Go. A Ruby project, a Rust project, a Go project — all use the same `sh cairn/tools/validate.sh` command.
+
+**Dogfooded.** This repository was built by the very protocol it defines. The `.meta/` directory holds the task files, handovers, and memory that agents used to construct `cairn/`. `sh cairn/tools/validate.sh cairn/` exits 0.
 
 ## Comparison
 
 | Feature | Cairn | Lutren/agent-handoff-protocol | agentmemory |
 |---------|:-----:|:-----------------------------:|:-----------:|
 | Enforced size caps | ✅ | ❌ advisory | ❌ |
-| Zero-dependency | ✅ stdlib Python | ✅ markdown only | ❌ server required |
+| Zero-dependency | ✅ POSIX sh | ✅ markdown only | ❌ server required |
 | Agent-agnostic | ✅ | ✅ | ✅ |
 | Named read-budget | ✅ | ❌ | ❌ |
 | Handoff templates | ✅ | ✅ | ❌ |
@@ -82,8 +84,9 @@ cp your-repo/cairn/templates/task.template.md your-repo/cairn/tasks/T1-your-task
 # Tell your agent: "Read cairn/START-HERE.md and follow the Cairn protocol."
 
 # 5. Verify
-python your-repo/cairn/tools/validate.py
+sh your-repo/cairn/tools/validate.sh
 # Expected: OK: cairn/ is healthy.
+# (Alternative: python your-repo/cairn/tools/validate.py)
 ```
 
 **Resuming work** (subsequent sessions): START-HERE.md already points to the active task
@@ -93,10 +96,10 @@ and last handover. Just tell your agent: "Read cairn/START-HERE.md and continue.
 
 1. **Agent A** finishes work. Writes a handover to `cairn/handoffs/YYYY-MM-DD-task.md` with five sections: What I Did, Key Decisions, What's Next, What's Risky, Do Not Re-Read.
 2. **Agent A** updates `cairn/memory/INDEX.md` (the always-read layer) to reflect current state.
-3. **Agent A** runs `python cairn/tools/validate.py` — must exit 0 before stopping.
+3. **Agent A** runs `sh cairn/tools/validate.sh` — must exit 0 before stopping.
 4. **Agent B** reads `cairn/START-HERE.md` → reads `cairn/memory/INDEX.md` → reads the latest handover → acts on "What's Next."
 5. Repeat. The trail grows. Context never dies.
 
 ## Dogfooding
 
-This repository was built by the very protocol it defines. The `.meta/` directory contains the task files and handovers that agents used to construct `cairn/`. Every design decision, dead-end, and key choice is preserved there. Running `python cairn/tools/validate.py cairn/` on this repository exits 0 — proof the protocol holds under real use.
+This repository was built by the very protocol it defines. The `.meta/` directory contains the task files and handovers that agents used to construct `cairn/`. Every design decision, dead-end, and key choice is preserved there. Running `sh cairn/tools/validate.sh cairn/` on this repository exits 0 — proof the protocol holds under real use.

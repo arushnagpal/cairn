@@ -1,20 +1,35 @@
 # cairn/tools
 
-## validate.py
+Two validators ship with Cairn. `validate.sh` is the canonical tool — it requires no runtime beyond `/bin/sh`. `validate.py` is an optional alternative for Python users.
 
-The Cairn validator. Enforces all protocol safeguards.
-
-### Usage
+## validate.sh (canonical)
 
 ```bash
-# Auto-detect cairn root (looks for START-HERE.md):
-python cairn/tools/validate.py
+# Auto-detect cairn root (looks for START-HERE.md in CWD or parent):
+sh cairn/tools/validate.sh
 
 # Or pass the cairn root explicitly:
+sh cairn/tools/validate.sh /path/to/cairn
+```
+
+## validate.py (optional alternative)
+
+```bash
+python cairn/tools/validate.py
 python cairn/tools/validate.py /path/to/cairn
 ```
 
-### Exit Codes
+## cairn.sh — CLI
+
+```bash
+# Scaffold cairn/ in a new or existing repo:
+sh cairn/tools/cairn.sh init [target-dir]
+
+# Show current task, memory budget, staleness:
+sh cairn/tools/cairn.sh status
+```
+
+## Exit Codes (both validators)
 
 | Code | Meaning | Output prefix |
 |------|---------|---------------|
@@ -26,7 +41,7 @@ python cairn/tools/validate.py /path/to/cairn
 
 When multiple violations exist, exit code is the highest applicable.
 
-### Configuration
+## Configuration
 
 Create `.cairn.toml` at the cairn root to override defaults:
 
@@ -35,5 +50,3 @@ max_file_lines = 200       # per-file line cap (default: 200)
 max_memory_lines = 1000    # total memory/ budget in lines (default: 1000)
 git_behavior = off         # off | on | strict (default: off)
 ```
-
-`git_behavior = strict` fails if a product file was hard-deleted instead of superseded.
